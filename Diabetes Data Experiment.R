@@ -11,9 +11,8 @@ source('Helper Functions.R')
 
 
 ### ---- Feature Engineering --- #### 
-
 # Load data and remove unnecessary rows/columns
-dat <- fread('widsdatathon2021_Diabetes/TrainingWiDS2021.csv')[, -1]
+dat <- fread('../Data/widsdatathon2021_Diabetes/TrainingWiDS2021.csv')[, -1]
 dat <- dat[ethnicity != "Other/Unknown"]
 
 # Drop columns with only one unique value
@@ -95,7 +94,7 @@ dat[, (grep("apache.*diagnosis", names(dat), value = TRUE)) := NULL]
 
 
 # Load the data dictionary
-dat_dict <- fread('widsdatathon2021_Diabetes/DataDictionaryWiDS2021.csv')
+dat_dict <- fread('../Data/widsdatathon2021_Diabetes/DataDictionaryWiDS2021.csv')
 
 # Create a mapping of variable names to their data types
 data_types <- setNames(dat_dict$`Data Type`, dat_dict$`Variable Name`)
@@ -125,12 +124,12 @@ sapply(dat, class)
 lapply(dat, function(x) head(table(x), 10))
 colnames(dat)[sapply(dat, class) == 'character']
 
-fwrite(dat, 'widsdatathon2021_Diabetes/cleaned_TrainingWiDS2021.csv', row.names = F)
+fwrite(dat, '../Data/widsdatathon2021_Diabetes/cleaned_TrainingWiDS2021.csv', row.names = F)
 
 
 ### ---- Modeling --- #### 
 
-dat = fread('widsdatathon2021_Diabetes/cleaned_TrainingWiDS2021.csv')
+dat = fread('../Data/widsdatathon2021_Diabetes/cleaned_TrainingWiDS2021.csv')
 colnames(dat)[sapply(dat, class) == 'character']
 dat[, c('hospital_id', 'gender','encounter_id', 'icu_id' ,"hospital_admit_source", "icu_admit_source", "icu_stay_type", "icu_type") := NULL]
 
